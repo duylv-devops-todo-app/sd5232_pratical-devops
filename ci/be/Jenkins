@@ -1,0 +1,43 @@
+pipeline {
+    agent { docker { image 'node:22.12.0-alpine3.21' } }
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = 'us-east-1'
+
+        registry = ''
+        registryCredential = 'aws-credentials'
+        tag = "$BUILD_NUMBER"
+        dockerImage = "backend-${tag}"
+    }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    app = docker.build(dockerImage, "-f src/backend/Dockerfile .")
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'echo Build...'
+            }
+        }
+        stage('Deploy image') {
+            steps {
+                script{
+                    docker.withRegistry("https://${registry}", "ecr:us-east-1:${registryCredential}") {
+                        sh "docker tag ${dockerImage} ${registry}:${tag}"
+                        sh "docker push ${registry}:${tag}"
+                    }
+                }
+
+            }
+        }
+    }
+}
