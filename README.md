@@ -41,9 +41,23 @@ After all, open your AWS account to see created resources.
 
 ### 3.2. Setup EC2
 #### Install Docker
+Connect to your EC2 instance. 
+```
+sudo yum install docker
+sudo systemctl start docker
+sudo usermod -a -G docker jenkins
+```
 
 ### 3.3. Setup Jenkins
-#### Plugins
+#### Plugins:
+- Docker Pipeline
+- Pipeline Utility Steps
+- Stage View
+- AWS Credentials
+- Amazon EC2
+- Amazon ECR
 #### Credentials
+- Github
+- AWS
 #### CI Pipeline
 #### CD Pipeline
