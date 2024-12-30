@@ -53,11 +53,19 @@ sudo usermod -a -G docker jenkins
 - Docker Pipeline
 - Pipeline Utility Steps
 - Stage View
-- AWS Credentials
 - Amazon EC2
 - Amazon ECR
+- Kubernetes
 #### Credentials
 - Github
 - AWS
+
+#### Environment Variables
+- AWS_CREDENTIAL_ID
+- FE_REGISTRY
+- BE_REGISTRY
+- CLUSTER_NAME
+- AWS_REGION
+
 #### CI Pipeline
 #### CD Pipeline
